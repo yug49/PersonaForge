@@ -1,2 +1,231 @@
-# PersonaForge
-Ownable AI Personas on 0G for the 0G WaveHack Buildathon: https://app.akindo.io/wave-hacks/xKOgjd91kCmrN3ORz/
+# PersonaForge – Ownable AI Personas on 0G
+
+## Core Concept
+
+PersonaForge is a decentralized platform for building and owning **AI-powered digital identities** ("Persona Agents") as **Intelligent NFTs (INFTs)**.
+
+These aren’t static profiles – they **evolve over time** with your inputs, experiences, and data. Your Persona Agent becomes a living extension of you:
+
+- It learns your style, preferences, and history.
+- It interacts trustlessly with others onchain.
+- It produces personalized insights, recommendations, and connections.
+
+The idea is simple but powerful:
+
+Every day, you “sync” with your Persona Agent by uploading small life snippets (thoughts, notes, achievements). In return, it surprises you with personalized outputs like curated opportunities, foresight notes, or meaningful new connections.
+
+This creates a habit loop similar to notifications on Web2 apps – but instead of doomscrolling, you’re **actively evolving your digital self**.
+
+---
+
+## Why Onchain and Why 0G?
+
+- **True Ownership** – Your persona is minted as an INFT. You own it, transfer it, or even merge it with others. No platform lock-ins like LinkedIn or [Character.AI](http://character.ai/).
+- **Censorship Resistance** – The AI evolution runs on 0G Compute. Nobody can shut down, censor, or bias how your identity grows.
+- **Scalable and Private** – All personal and interaction data lives on 0G Storage, encrypted and cheap. Unlike Web2 silos, your data is secure and portable.
+- **Dynamic Agents, Not Static Profiles** – Social platforms today give you a profile page. PersonaForge gives you a **thinking agent that acts on your behalf**.
+
+---
+
+## Use Cases (Solving Real-World Problems)
+
+The use cases have a wide spectrum, these are only some of them.
+
+### 1. Personal AI Assistant
+
+Your Persona Agent becomes your perfect digital secretary. Since it’s trained only on your data and preferences:
+
+- Drafts emails and replies exactly how you would.
+- Reminds you of commitments in your tone.
+- Suggests collaborations or communities aligned with your personal growth.
+
+This is different from Siri or ChatGPT because it **is you** – your style, your history, your voice.
+
+---
+
+### 2. Influencer / Celebrity INFTs
+
+Famous personalities can mint Persona INFTs that evolve under their guidance.
+
+- Fans and followers can interact with the “living AI version” of them.
+- These INFTs become **value-holding digital assets**, tradable and maintainable.
+- Credibility is ensured by onchain history + like/dislike system.
+
+This opens up new **creator economies** where personalities literally sell access to their digital extensions.
+
+---
+
+### 3. Mentorship & Knowledge Transfer
+
+Imagine a small-town doctor purchasing or receiving a mentor’s Persona INFT.
+
+- The INFT has absorbed years of medical expertise, case handling, and judgment patterns.
+- The young doctor can query it for trusted guidance.
+
+This scales across professions: a budding lawyer, a craftsman, or even students learning from their professors’ maintained Persona INFTs.
+
+---
+
+### 4. Heritage & Legacy INFTs
+
+Families can pass down Persona Agents through generations.
+
+- A grandparent’s INFT retains their wisdom, experiences, and personality.
+- Future generations interact with it to learn values, family stories, or even practical know-how.
+
+This solves the problem of **lost human knowledge** that dies with people.
+
+---
+
+### 5. Enterprise / Team Personas
+
+Teams can merge INFTs into a **collaborative persona**.
+
+- A startup creates an “Org Agent” that carries the memory of decisions, culture, and expertise.
+- New employees sync with it instead of reading endless documents.
+- Businesses can even sell or share “Partner INFTs” for smoother collaborations.
+
+---
+
+### 6. Multi-Agent Collaboration
+
+A user can orchestrate **multiple Persona INFTs working together** like a digital team.
+
+- Example: A *Dev INFT* + *PM INFT* + *Tester INFT* collaborate to simulate a small product team.
+- For personal use: a *Fitness INFT* + *Diet INFT* + *Therapy INFT* coordinate to deliver holistic lifestyle guidance.
+- For enterprises: rapid prototyping with AI teams before scaling to human execution.
+
+This creates **instant digital workforces**, unlocking both fun and enterprise-grade productivity.
+
+---
+
+### 7. Community Knowledge Pools
+
+Communities or DAOs can create shared Persona Agents.
+
+- Example: A DAO creates an “Ecosystem Agent” that curates all proposals, discussions, and histories.
+- Members query it for fast answers instead of sifting through documents.
+- This builds living community memory.
+
+---
+
+### 8. Personality Markets
+
+For fun and experimentation, users could **trade experimental personas** – e.g., “Shakespeare-style AI,” “Zen Monk Persona,” or “Startup Hustler Persona.”
+
+People adopt and interact with them as companions or even co-pilots for creative work.
+
+Unlike [Character.AI](http://character.ai/), these personas are **ownable, verifiable, and transferable**.
+
+---
+
+## Key Features
+
+- **Mintable Persona INFTs**
+  - One-click minting on 0G Chain.
+  - Seeded with initial inputs and encrypted AI metadata.
+
+- **Daily Syncs**
+  - Users upload quick snippets.
+  - 0G Compute generates insights, recommendations, or connections.
+  - Over time, your Persona grows richer and more accurate.
+
+- **Agent-to-Agent Interactions**
+  - INFTs can handshake with each other onchain.
+  - They auto-match and suggest meaningful human connections.
+
+- **Like / Dislike Credibility System**
+  - Holders of a Persona INFT can leave a **1-time like or dislike per wallet**.
+  - This rating system acts as a credibility marker.
+  - Helps new buyers know whether the INFT truly represents the person and is being maintained.
+
+- **Privacy Controls**
+  - All data encrypted in 0G Storage.
+  - Users choose what to share publicly vs. privately.
+
+---
+
+## Transfer & Merge
+
+- **Transfer**
+  - A persona INFT can be transferred between users or wallets, enabling portability of reputation, skills, or progress.
+  - Example: A player can sell, gift, or delegate their persona to another user while retaining the full history of actions, attributes, and achievements.
+
+- **Merge**
+  - Multiple personas can be merged into a new composite INFT.
+  - Use cases:
+    - **Team INFTs**: Individual personas contribute attributes, achievements, and resources to form a collective identity (e.g., a DAO, esports team, or project squad).
+    - **Legacy Passing**: A persona can be “inherited” by another (family member, successor, or protégé), ensuring continuity of reputation and history beyond a single owner.
+    - **Evolutionary Growth**: Older or less active personas can be merged into a primary one, strengthening it while preserving historical lineage.
+
+---
+
+## Motivation for iNFT Makers/Maintainers
+
+- With each trade of their iNFTs, they will get a small cut (5-10%) of the amount of iNFT sold.
+- The interface will also have a donation section for each iNFT in which consumers of those iNFTs can donate to tip the makers/maintainers of them.
+- The interface of the Makers/Maintainers will be similar to that of an online journal. Many people write journals, so they can just use this to record their day-to-day activities and findings (along with audio files, photos, etc.). This data will then be used (privately) for the memory of the iNFTs and can also be reviewed by the maker after some time, fulfilling their side role of a journal.
+
+This way maintaining the iNFTs will not feel like an “extra burden” to add to your daily routine and will also reward you.
+
+---
+```mermaid
+flowchart TD
+
+    A[Wave 1: Ideation]:::wave1 --> B[Wave 2: Foundation Building]:::wave2
+    B --> C[Wave 3: Intelligence & Interactivity]:::wave3
+    C --> D[Wave 4: Use Cases & Early Distribution]:::wave4
+    D --> E[Wave 5: Scaling the Ecosystem]:::wave5
+    E --> F[Wave 6: Mainstream Adoption]:::wave6
+
+    %% Wave 1
+    A --- A1[Brainstorm & validate INFT concepts]
+    A --- A2[Explore narrative: intelligent, functional NFTs]
+    A --- A3[Research AI, blockchain, decentralized infra]
+    A --- A4[Identify early community contributors]
+
+    %% Wave 2
+    B --- B1[Develop minimal INFT architecture]
+    B --- B2[Integrate 0G storage]
+    B --- B3["Generative AI attributes (static prompts)"]
+    B --- B4[Release whitepaper/litepaper]
+
+    %% Wave 3
+    C --- C1[Dynamic prompts + context memory]
+    C --- C2[Build simple user–INFT conversations]
+    C --- C3[Launch INFT minting demo]
+    C --- C4[Form initial ecosystem partnerships]
+
+    %% Wave 4
+    D --- D1[Creator/fan engagement use cases]
+    D --- D2[Gaming/character INFTs]
+    D --- D3[Deploy for DAOs/events]
+    D --- D4[Developer tooling for custom INFTs]
+
+    %% Wave 5
+    E --- E1[Expand into dApps, social, wallets]
+    E --- E2[Launch INFT marketplaces + DeFi composability]
+    E --- E3[Skill-based INFT templates]
+    E --- E4[Hackathons & community builds]
+
+    %% Wave 6
+    F --- F1[Full-scale industry distribution]
+    F --- F2[Entertainment, education, gaming, social]
+    F --- F3[Mature dev platform for INFT creation]
+    F --- F4[Cross-chain + cross-platform standards]
+
+    %% Styles
+    classDef wave1 fill:#FFD700,stroke:#333,stroke-width:2px,color:#000;
+    classDef wave2 fill:#FF8C00,stroke:#333,stroke-width:2px,color:#fff;
+    classDef wave3 fill:#1E90FF,stroke:#333,stroke-width:2px,color:#fff;
+    classDef wave4 fill:#32CD32,stroke:#333,stroke-width:2px,color:#fff;
+    classDef wave5 fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#fff;
+    classDef wave6 fill:#FF1493,stroke:#333,stroke-width:2px,color:#fff;
+```
+---
+## Why This Works for Early 0G
+
+- **User Magnet** – Frictionless onboarding: mint and sync in minutes.
+- **Viral Growth** – Public “Persona Echoes” can be shared offchain to attract friends.
+- **Onchain Utility** – Every sync triggers storage, compute, and INFT updates, driving mainnet usage.
+- **Habit Loop** – Returning daily for surprises keeps engagement high.
