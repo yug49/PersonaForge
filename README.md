@@ -223,6 +223,21 @@ flowchart TD
     classDef wave6 fill:#FF1493,stroke:#333,stroke-width:2px,color:#fff;
 ```
 ---
+## PersonaForge Tech Stack (Powered by 0G)
+
+- **0G Chain**
+    - Hosts the **Persona INFTs** as smart contracts on an **EVM-compatible chain**.
+    - Handles minting, ownership, transfers, merging, and credibility (like/dislike) logic.
+- **0G Compute**
+    - Runs **AI inference and personalization** for Persona Agents.
+    - Processes user syncs (text, audio, notes) into evolving persona traits, insights, and recommendations.
+- **0G Storage**
+    - Stores **encrypted personal data, history, and persona metadata**.
+    - Ensures long-term, cheap, and portable data management beyond centralized silos.
+- **0G Data Availability (DA)**
+    - Guarantees that all persona syncs and interaction data are **verifiably available** for validation and future interactions.
+    - Enables **scalability** as thousands of users upload daily snippets without bottlenecks.
+---
 ## Why This Works for Early 0G
 
 - **User Magnet** – Frictionless onboarding: mint and sync in minutes.
