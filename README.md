@@ -298,7 +298,7 @@ We can then start developing on **specific use cases (demanded by the community 
     - Guarantees that all persona syncs and interaction data are **verifiably available** for validation and future interactions.
     - Enables **scalability** as thousands of users upload daily snippets without bottlenecks.
 ---
-## Why This Works for Early 0G
+## Why This Works for 0G
 
 - **User Magnet** – Frictionless onboarding: mint and sync in minutes.
 - **Viral Growth** – Public “Persona Echoes” can be shared offchain to attract friends.
