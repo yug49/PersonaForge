@@ -172,47 +172,40 @@ This way maintaining the iNFTs will not feel like an “extra burden” to add t
 ```mermaid
 flowchart TD
 
-    A[Wave 1: Ideation]:::wave1 --> B[Wave 2: Foundation Building]:::wave2
-    B --> C[Wave 3: Intelligence & Interactivity]:::wave3
-    C --> D[Wave 4: Use Cases & Early Distribution]:::wave4
-    D --> E[Wave 5: Scaling the Ecosystem]:::wave5
-    E --> F[Wave 6: Mainstream Adoption]:::wave6
+    A[Wave 1: Concept Validation]:::wave1 --> B[Wave 2: INFT Core Architecture]:::wave2
+    B --> C[Wave 3: Storage + Data Syncs]:::wave3
+    C --> D[Wave 4: AI Interactivity Demo]:::wave4
+    D --> E[Wave 5: Early User Pilot]:::wave5
+    E --> F[Wave 6: Grant Demo & Final Demo App]:::wave6
 
     %% Wave 1
-    A --- A1[Brainstorm & validate INFT concepts]
-    A --- A2[Explore narrative: intelligent, functional NFTs]
-    A --- A3[Research AI, blockchain, decentralized infra]
-    A --- A4[Identify early community contributors]
+    A --- A1["Refine INFT concept + scope for Buildathon"]
+    A --- A2["Research AI, blockchain, decentralized infra"]
+    A --- A3["Explore narrative: intelligent, functional NFTs"]
 
     %% Wave 2
-    B --- B1[Develop minimal INFT architecture]
-    B --- B2[Integrate 0G storage]
-    B --- B3["Generative AI attributes (static prompts)"]
-    B --- B4[Release whitepaper/litepaper]
+    B --- B1["Develop minimal INFT smart contract on 0G Chain"]
+    B --- B2["Minting + ownership + transfer logic"]
+    B --- B3["Seed INFT with static AI attributes"]
 
     %% Wave 3
-    C --- C1[Dynamic prompts + context memory]
-    C --- C2[Build simple user–INFT conversations]
-    C --- C3[Launch INFT minting demo]
-    C --- C4[Form initial ecosystem partnerships]
+    C --- C1["Integrate 0G Storage for encrypted snippets"]
+    C --- C2["Enable daily sync flow: upload → store → link to INFT"]
+    C --- C3["Use 0G DA to guarantee snippet availability"]
 
     %% Wave 4
-    D --- D1[Creator/fan engagement use cases]
-    D --- D2[Gaming/character INFTs]
-    D --- D3[Deploy for DAOs/events]
-    D --- D4[Developer tooling for custom INFTs]
+    D --- D1["Add context memory (basic history awareness)"]
+    D --- D2["Enable simple chat-like interaction with Persona"]
+    D --- D3["Persona outputs personalized responses/insights"]
 
     %% Wave 5
-    E --- E1[Expand into dApps, social, wallets]
-    E --- E2[Launch INFT marketplaces + DeFi composability]
-    E --- E3[Skill-based INFT templates]
-    E --- E4[Hackathons & community builds]
+    E --- E1["Launch limited pilot (10–20 testers)"]
+    E --- E2["Collect feedback on usability + interactions"]
+    E --- E3["Add lightweight reputation system (like/dislike)"]
 
     %% Wave 6
-    F --- F1[Full-scale industry distribution]
-    F --- F2[Entertainment, education, gaming, social]
-    F --- F3[Mature dev platform for INFT creation]
-    F --- F4[Cross-chain + cross-platform standards]
+    F --- F1["Polish demo app + deploy on testnet"]
+    F --- F2["Showcase live mint → sync → interact loop"]
 
     %% Styles
     classDef wave1 fill:#FFD700,stroke:#333,stroke-width:2px,color:#000;
@@ -222,6 +215,68 @@ flowchart TD
     classDef wave5 fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#fff;
     classDef wave6 fill:#FF1493,stroke:#333,stroke-width:2px,color:#fff;
 ```
+---
+### Wave 1: Concept Validation - Completed ✅
+
+- Brainstorm & validate INFT concepts
+- Explore narrative: intelligent, functional NFTs
+- Research AI, blockchain, decentralized infra
+
+---
+
+### Wave 2: INFT Core Architecture
+
+- Develop minimal INFT smart contract on 0G Chain
+- Minting + ownership + transfer logic
+- Seed INFT with static AI attributes
+
+---
+
+### Wave 3: Storage + Data Syncs
+
+- Integrate 0G Storage for encrypted snippets
+- Enable daily sync flow: upload → store → link to INFT
+- Use 0G DA to guarantee snippet availability
+
+---
+
+### Wave 4: AI Interactivity Demo
+
+- Add context memory (basic history awareness)
+- Enable simple chat-like interaction with Persona
+- Persona outputs personalized responses/insights
+
+---
+
+### Wave 5: Early User Pilot
+
+- Launch limited pilot (10–20 testers)
+- Collect feedback on usability + interactions
+- Add lightweight reputation system (like/dislike)
+
+---
+
+### Wave 6: Grant Demo & Final Demo App
+
+- Polish demo app + deploy on testnet
+- Showcase live mint → sync → interact loop
+
+---
+
+### Beyond Wave 6: Future Scalability
+
+Even after these waves, there is a **wide scope of future scalability**.
+
+We can then start developing on **specific use cases (demanded by the community or DAO)** such as:
+
+- **Doctor’s iNFT** → Pre-defined “Doctory questions” during minting/settings for highly personalized doctor roles.
+- **Legacy Setting for Persona iNFTs** → Store trustee addresses to whom iNFTs (and linked vault funds) get transferred upon inactivity/death (based on inactivity period or trustee voting).
+- **Specialized Roles** → Engineer, teacher, personal assistant, etc., where iNFTs are optimized for specific functions.
+- **Vault Integration** → Link iNFTs with secure vaults for fund distribution tied to legacy settings.
+- **Community-Driven Additions** → Feature expansion based on DAO governance and feedback.
+
+**And many more...**
+
 ---
 ## PersonaForge Tech Stack (Powered by 0G)
 
