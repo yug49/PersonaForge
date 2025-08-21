@@ -1,4 +1,4 @@
-# PersonaForge – Ownable AI Personas on 0G
+# PersonaForge – Living Individuals but, Digital
 
 ## Core Concept
 
