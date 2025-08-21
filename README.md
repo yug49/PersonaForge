@@ -169,6 +169,11 @@ Unlike [Character.AI](http://character.ai/), these personas are **ownable, verif
 This way maintaining the iNFTs will not feel like an “extra burden” to add to your daily routine and will also reward you.
 
 ---
+## Roadmap (Hackathon Wave Plan)
+
+The evolution of Intelligent NFTs (INFTs) can be visualised in **waves of adoption**, where each wave unlocks more complex and impactful use cases.
+
+---
 ```mermaid
 flowchart TD
 
