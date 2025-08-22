@@ -31,15 +31,14 @@ This creates a habit loop similar to notifications on Web2 apps – but instead 
 
 The use cases have a wide spectrum, these are only some of them.
 
-### 1. Personal AI Assistant
+### 1. Heritage & Legacy INFTs
 
-Your Persona Agent becomes your perfect digital secretary. Since it’s trained only on your data and preferences:
+Families can pass down Persona Agents through generations.
 
-- Drafts emails and replies exactly how you would.
-- Reminds you of commitments in your tone.
-- Suggests collaborations or communities aligned with your personal growth.
+- A grandparent’s INFT retains their wisdom, experiences, and personality.
+- Future generations interact with it to learn values, family stories, or even practical know-how.
 
-This is different from Siri or ChatGPT because it **is you** – your style, your history, your voice.
+This solves the problem of **lost human knowledge** that dies with people.
 
 ---
 
@@ -66,14 +65,15 @@ This scales across professions: a budding lawyer, a craftsman, or even students 
 
 ---
 
-### 4. Heritage & Legacy INFTs
+### 4. Personal AI Assistant
 
-Families can pass down Persona Agents through generations.
+Your Persona Agent becomes your perfect digital secretary. Since it’s trained only on your data and preferences:
 
-- A grandparent’s INFT retains their wisdom, experiences, and personality.
-- Future generations interact with it to learn values, family stories, or even practical know-how.
+- Drafts emails and replies exactly how you would.
+- Reminds you of commitments in your tone.
+- Suggests collaborations or communities aligned with your personal growth.
 
-This solves the problem of **lost human knowledge** that dies with people.
+This is different from Siri or ChatGPT because it **is you** – your style, your history, your voice.
 
 ---
 
