@@ -81,17 +81,12 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
         uint256 timestamp
     );
 
-    event AIResponseSubmitted(
-        uint256 indexed requestId,
-        uint256 indexed tokenId,
-        string response,
-        uint256 timestamp
-    );
+    event AIResponseSubmitted(uint256 indexed requestId, uint256 indexed tokenId, string response, uint256 timestamp);
 
     event AgentConfigUpdated(uint256 indexed tokenId, address indexed updater, uint256 timestamp);
 
     event AuthorizedCallerAdded(address indexed caller);
-    
+
     event AuthorizedCallerRemoved(address indexed caller);
 
     constructor(
@@ -145,7 +140,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
 
         // Create AI request
         uint256 requestId = requestCounter++;
-        
+
         aiRequests[requestId] = AIRequest({
             tokenId: request.tokenId,
             requester: request.requester,
@@ -160,7 +155,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
             requestId,
             request.tokenId,
             request.requester,
-            group.encryptedDataURI,  // Server will fetch this from 0G Storage
+            group.encryptedDataURI, // Server will fetch this from 0G Storage
             token.personalityTraits,
             request.query,
             request.context,
@@ -169,10 +164,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
 
         // Record interaction with placeholder response
         _recordInteraction(
-            request.tokenId,
-            request.requester,
-            request.query,
-            "AI request submitted. Response pending..."
+            request.tokenId, request.requester, request.query, "AI request submitted. Response pending..."
         );
 
         // Return immediate response indicating processing
@@ -189,11 +181,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @param requestId The AI request ID
      * @param response The AI-generated response
      */
-    function submitAIResponse(uint256 requestId, string memory response) 
-        external 
-        onlyRole(ADMIN_ROLE)
-        nonReentrant
-    {
+    function submitAIResponse(uint256 requestId, string memory response) external onlyRole(ADMIN_ROLE) nonReentrant {
         require(requestId < requestCounter, "Invalid request ID");
         require(!aiRequests[requestId].processed, "Request already processed");
         require(bytes(response).length > 0, "Empty response");
@@ -424,7 +412,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @dev Deactivate an agent (admin only)
      * @param tokenId The token ID
      */
-    function deactivateAgent(uint256 tokenId, string memory /* reason */) external onlyRole(ADMIN_ROLE) {
+    function deactivateAgent(uint256 tokenId, string memory /* reason */ ) external onlyRole(ADMIN_ROLE) {
         require(_tokenExists(tokenId), "Token does not exist");
 
         agentStats[tokenId].isActive = false;
@@ -462,10 +450,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @param _maxHistoryLength New max history length
      * @param _maxQueryLength New max query length
      */
-    function updateConfiguration(uint256 _maxHistoryLength, uint256 _maxQueryLength)
-        external
-        onlyRole(ADMIN_ROLE)
-    {
+    function updateConfiguration(uint256 _maxHistoryLength, uint256 _maxQueryLength) external onlyRole(ADMIN_ROLE) {
         maxHistoryLength = _maxHistoryLength;
         maxQueryLength = _maxQueryLength;
     }
@@ -495,12 +480,9 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @param query User query
      * @param response Agent response
      */
-    function _recordInteraction(
-        uint256 tokenId,
-        address requester,
-        string memory query,
-        string memory response
-    ) internal {
+    function _recordInteraction(uint256 tokenId, address requester, string memory query, string memory response)
+        internal
+    {
         InteractionRecord[] storage history = interactionHistory[tokenId];
 
         // Maintain history limit
