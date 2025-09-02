@@ -345,7 +345,7 @@ flowchart TD
 
 ---
 
-### Wave 2: INFT Core Architecture
+### Wave 2: INFT Core Architecture - Completed ✅
 
 - Develop minimal INFT smart contract on 0G Chain
 - Minting + ownership + transfer logic
