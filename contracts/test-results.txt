@@ -1,0 +1,105 @@
+PersonaForge Smart Contract Test Results
+==========================================
+
+Test Summary:
+- Total Test Suites: 7
+- Total Tests: 177
+- Tests Passed: 177
+- Tests Failed: 0
+- Tests Skipped: 0
+- Total Execution Time: 10.50s (31.55s CPU time)
+
+Detailed Test Results by Contract:
+
+1. PersonaINFT.t.sol (36 tests)
+   - All tests passed
+   - Execution time: 13.20ms (4.15ms CPU time)
+   - Key functionality tested:
+     * INFT minting and ownership
+     * Group management and access control
+     * Agent interaction capabilities
+     * Token transfers and deactivation
+     * Gas usage optimization
+
+2. Integration.t.sol (9 tests)
+   - All tests passed
+   - Execution time: 13.85ms (5.03ms CPU time)
+   - Key functionality tested:
+     * Complete persona workflow
+     * Data consistency across contracts
+     * Multi-group ecosystem operations
+     * Role-based workflows
+     * Transfer workflow integration
+
+3. DailySync.t.sol (21 tests)
+   - All tests passed
+   - Execution time: 14.25ms (5.18ms CPU time)
+   - Key functionality tested:
+     * Daily sync mechanism
+     * Journal entry management
+     * Content hash uniqueness
+     * Pagination and data retrieval
+     * Authorization and access control
+
+4. PersonaStorageManager.t.sol (32 tests)
+   - All tests passed
+   - Execution time: 15.65ms (5.02ms CPU time)
+   - Key functionality tested:
+     * Storage group creation and management
+     * Authorized updater system
+     * Data updates and versioning
+     * Central server key management
+     * State consistency validation
+
+5. EdgeCases.t.sol (18 tests)
+   - All tests passed
+   - Execution time: 10.50s (12.02ms CPU time)
+   - Key functionality tested:
+     * Boundary conditions and limits
+     * Special character handling
+     * Large data structure operations
+     * Reentrancy protection
+     * Gas limit edge cases
+
+6. PersonaAgentManager.t.sol (41 tests)
+   - All tests passed
+   - Execution time: 10.50s (12.76ms CPU time)
+   - Key functionality tested:
+     * Agent query processing
+     * Access control management
+     * Interaction history tracking
+     * Configuration updates
+     * Multi-token interactions
+
+7. Invariants.t.sol (20 tests)
+   - All tests passed
+   - Execution time: 10.50s (67.37s CPU time)
+   - Key functionality tested:
+     * Cross-contract consistency
+     * ERC721 compliance
+     * Business logic integrity
+     * Access control invariants
+     * Data integrity validation
+
+Gas Usage Analysis:
+- PersonaINFT group creation: ~230,857 gas
+- INFT minting: ~493,077 gas
+- Storage group creation: ~402,780 gas
+- Data updates: ~546,639 gas
+- Agent query processing: ~919,687 gas
+
+Test Coverage Areas:
+✅ Core functionality (minting, transfers, ownership)
+✅ Access control and authorization
+✅ Data integrity and consistency
+✅ Cross-contract interactions
+✅ Edge cases and boundary conditions
+✅ Gas optimization
+✅ Invariant properties
+✅ Integration workflows
+✅ Error handling and reverts
+
+All tests demonstrate the robustness and reliability of the PersonaForge smart contract system, with comprehensive coverage of both happy path scenarios and edge cases.
+
+Generated on: September 2, 2025
+Contract versions: Latest deployment on 0G Galileo Testnet

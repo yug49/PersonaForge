@@ -5,6 +5,8 @@
 **Wave 2: INFT Core Architecture - COMPLETED**
 
 We have successfully completed Wave 2 of the PersonaForge roadmap, delivering a comprehensive Intelligent NFT (INFT) system with full smart contract implementation, testing, and deployment on the 0G Galileo Testnet.
+ - Deployed Link: [PersonaForge](https://personaforge-ten.vercel.app/)
+ - Tests Results: [Click Here](contracts/test-results.txt)
 
 ### What We Built
 
