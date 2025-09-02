@@ -94,15 +94,14 @@ contract ExampleUsage is Script {
 
         // Simulate interaction (would normally be called by PersonaINFT contract)
         if (hasAccess) {
-            IPersonaAgent.AgentRequest memory request = IPersonaAgent.AgentRequest({
-                tokenId: tokenId1,
-                requester: deployer,
-                query: "Hello, can you help me with project planning?",
-                timestamp: block.timestamp,
-                context: abi.encode("project_planning", "business")
-            });
-
-            // Note: This would normally be called through PersonaINFT.interactWithAgent()
+            // Note: Agent interaction would normally be called through PersonaINFT.interactWithAgent()
+            // IPersonaAgent.AgentRequest memory request = IPersonaAgent.AgentRequest({
+            //     tokenId: tokenId1,
+            //     requester: deployer,
+            //     query: "Hello, can you help me with project planning?",
+            //     timestamp: block.timestamp,
+            //     context: abi.encode("project_planning", "business")
+            // });
             // IPersonaAgent.AgentResponse memory response = agentManager.processQuery(request);
             // console.log("Agent response:", response.response);
 

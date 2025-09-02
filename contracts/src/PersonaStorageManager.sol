@@ -39,9 +39,19 @@ contract PersonaStorageManager is AccessControl, ReentrancyGuard {
         string updateReason;
     }
 
+    struct JournalEntry {
+        uint256 groupId;
+        string entryContent; // Journal/diary/thoughts content
+        string entryType; // "daily_sync", "experience", "thought", "memory", etc.
+        uint256 timestamp;
+        address author; // Group admin who added this entry
+        bytes32 contentHash; // Hash of the entry content for integrity
+    }
+
     // Storage
     mapping(uint256 => StorageGroup) private storageGroups;
     mapping(uint256 => DataUpdate[]) private updateHistory;
+    mapping(uint256 => JournalEntry[]) private journalEntries; // New: Journal entries for each group
     mapping(bytes32 => uint256) private keyHashToGroupId;
 
     uint256 private _nextGroupId = 1;
@@ -62,6 +72,10 @@ contract PersonaStorageManager is AccessControl, ReentrancyGuard {
     event AuthorizedUpdaterRemoved(uint256 indexed groupId, address indexed updater);
 
     event CentralServerKeyUpdated(string oldKey, string newKey);
+
+    event JournalEntryAdded(
+        uint256 indexed groupId, address indexed author, string entryType, uint256 timestamp, bytes32 contentHash
+    );
 
     constructor(address _ogStorageAddress, string memory _centralServerPublicKey) {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -187,6 +201,135 @@ contract PersonaStorageManager is AccessControl, ReentrancyGuard {
 
         group.authorizedUpdaters[updater] = false;
         emit AuthorizedUpdaterRemoved(groupId, updater);
+    }
+
+    /**
+     * @dev Add a daily sync entry (journal/diary/thoughts/experiences)
+     * @param groupId ID of the storage group
+     * @param entryContent The journal entry content (thoughts, experiences, memories)
+     * @param entryType Type of entry ("daily_sync", "experience", "thought", "memory", etc.)
+     */
+    function addJournalEntry(uint256 groupId, string memory entryContent, string memory entryType)
+        public
+        nonReentrant
+    {
+        StorageGroup storage group = storageGroups[groupId];
+        require(group.isActive, "Group not active");
+        require(group.admin == msg.sender || group.authorizedUpdaters[msg.sender], "Not authorized to update");
+        require(bytes(entryContent).length > 0, "Entry content cannot be empty");
+        require(bytes(entryType).length > 0, "Entry type cannot be empty");
+
+        bytes32 contentHash = keccak256(abi.encodePacked(entryContent, block.timestamp, msg.sender));
+
+        // Add journal entry
+        journalEntries[groupId].push(
+            JournalEntry({
+                groupId: groupId,
+                entryContent: entryContent,
+                entryType: entryType,
+                timestamp: block.timestamp,
+                author: msg.sender,
+                contentHash: contentHash
+            })
+        );
+
+        // Update group's last updated timestamp
+        group.lastUpdated = block.timestamp;
+
+        emit JournalEntryAdded(groupId, msg.sender, entryType, block.timestamp, contentHash);
+    }
+
+    /**
+     * @dev Add a daily sync entry with automatic type
+     * @param groupId ID of the storage group
+     * @param dailyThoughts Daily thoughts, experiences, or memories to sync
+     */
+    function dailySync(uint256 groupId, string memory dailyThoughts) external {
+        addJournalEntry(groupId, dailyThoughts, "daily_sync");
+    }
+
+    /**
+     * @dev Get journal entries for a storage group
+     * @param groupId ID of the storage group
+     * @param start Starting index (for pagination)
+     * @param limit Maximum number of entries to return
+     */
+    function getJournalEntries(uint256 groupId, uint256 start, uint256 limit)
+        external
+        view
+        returns (JournalEntry[] memory entries)
+    {
+        StorageGroup storage group = storageGroups[groupId];
+        require(group.isActive, "Group not active");
+        require(group.admin == msg.sender || group.authorizedUpdaters[msg.sender], "Not authorized to view");
+
+        JournalEntry[] storage allEntries = journalEntries[groupId];
+
+        if (start >= allEntries.length) {
+            return new JournalEntry[](0);
+        }
+
+        uint256 end = start + limit;
+        if (end > allEntries.length || limit == 0) {
+            end = allEntries.length;
+        }
+
+        uint256 returnLength = end - start;
+        entries = new JournalEntry[](returnLength);
+
+        for (uint256 i = 0; i < returnLength; i++) {
+            entries[i] = allEntries[start + i];
+        }
+
+        return entries;
+    }
+
+    /**
+     * @dev Get the latest journal entries for a storage group
+     * @param groupId ID of the storage group
+     * @param limit Maximum number of latest entries to return
+     */
+    function getLatestJournalEntries(uint256 groupId, uint256 limit)
+        external
+        view
+        returns (JournalEntry[] memory entries)
+    {
+        StorageGroup storage group = storageGroups[groupId];
+        require(group.isActive, "Group not active");
+        require(group.admin == msg.sender || group.authorizedUpdaters[msg.sender], "Not authorized to view");
+
+        JournalEntry[] storage allEntries = journalEntries[groupId];
+        uint256 totalEntries = allEntries.length;
+
+        if (totalEntries == 0) {
+            return new JournalEntry[](0);
+        }
+
+        uint256 returnLength = limit;
+        if (returnLength > totalEntries) {
+            returnLength = totalEntries;
+        }
+
+        entries = new JournalEntry[](returnLength);
+        uint256 startIndex = totalEntries - returnLength;
+
+        for (uint256 i = 0; i < returnLength; i++) {
+            entries[i] = allEntries[startIndex + i];
+        }
+
+        return entries;
+    }
+
+    /**
+     * @dev Get total number of journal entries for a group
+     * @param groupId ID of the storage group
+     */
+    function getJournalEntryCount(uint256 groupId) external view returns (uint256) {
+        StorageGroup storage group = storageGroups[groupId];
+        require(group.isActive, "Group not active");
+        require(group.admin == msg.sender || group.authorizedUpdaters[msg.sender], "Not authorized to view");
+
+        return journalEntries[groupId].length;
     }
 
     /**

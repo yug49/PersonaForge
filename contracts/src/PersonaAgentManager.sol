@@ -222,13 +222,19 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
             return false;
         }
 
-        PersonaINFT.PersonaToken memory token = personaINFT.getPersonaToken(tokenId);
-        if (!token.isActive) {
+        try personaINFT.getPersonaToken(tokenId) returns (PersonaINFT.PersonaToken memory token) {
+            if (!token.isActive) {
+                return false;
+            }
+
+            try personaINFT.getPersonaGroup(token.groupId) returns (PersonaINFT.PersonaGroup memory group) {
+                return group.isActive; // Agent access depends on token/group being active, not on prior interactions
+            } catch {
+                return false;
+            }
+        } catch {
             return false;
         }
-
-        PersonaINFT.PersonaGroup memory group = personaINFT.getPersonaGroup(token.groupId);
-        return group.isActive && agentStats[tokenId].isActive;
     }
 
     /**
@@ -352,6 +358,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @param caller Address to authorize
      */
     function addAuthorizedCaller(address caller) external onlyRole(ADMIN_ROLE) {
+        require(caller != address(0), "Invalid caller address");
         authorizedCallers[caller] = true;
     }
 
@@ -388,6 +395,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
         onlyRole(ADMIN_ROLE)
     {
         require(_ogComputeAddress != address(0), "Invalid address");
+        require(bytes(_agentModelEndpoint).length > 0, "Endpoint cannot be empty");
 
         ogComputeAddress = _ogComputeAddress;
         agentModelEndpoint = _agentModelEndpoint;
@@ -401,7 +409,6 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @param encryptedDataURI URI to encrypted persona data
      * @param personalityTraits Individual personality traits
      * @param query User query
-     * @param context Additional context
      * @return response AI agent response
      */
     function _processWithOGCompute(
@@ -409,8 +416,8 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
         string memory encryptedDataURI,
         string memory personalityTraits,
         string memory query,
-        bytes memory context
-    ) internal view returns (string memory response) {
+        bytes memory /* context */
+    ) internal pure returns (string memory response) {
         // This is a placeholder implementation
         // In production, this would:
         // 1. Call 0G Compute API with encrypted data URI

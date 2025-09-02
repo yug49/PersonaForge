@@ -298,7 +298,7 @@ contract PersonaINFT is ERC721, AccessControl, ReentrancyGuard {
      */
     function _processAgentQuery(
         uint256 tokenId,
-        string memory encryptedDataURI,
+        string memory, /* encryptedDataURI */
         string memory personalityTraits,
         string memory query
     ) internal pure returns (string memory) {
