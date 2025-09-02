@@ -50,7 +50,9 @@ const MintPersonaINFT = () => {
     }
 
     if (!CONTRACT_ADDRESSES.PERSONA_INFT) {
-      toast.error("PersonaINFT contract address not configured");
+      toast.error(
+        "Persona Group cannout be created because the 0g storage is not configured yet, it will be done in the next waves. For now, the contracts and INFT functionalities are completed and can be reviewed at contract level or through tests."
+      );
       return;
     }
 

@@ -592,7 +592,7 @@ export const CONTRACT_ADDRESSES = {
 // 0G Network Configuration
 export const OG_NETWORK = {
   id: 16601, // OG-Galileo-Testnet
-  name: "OG-Galileo-Testnet",
+  name: "OG-Galileo-Testnet", 
   network: "og-galileo-testnet",
   nativeCurrency: {
     decimals: 18,
@@ -601,10 +601,10 @@ export const OG_NETWORK = {
   },
   rpcUrls: {
     public: {
-      http: ["https://evmrpc-testnet.0g.ai"],
+      http: [process.env.REACT_APP_OG_RPC_URL || "https://evmrpc-testnet.0g.ai"],
     },
     default: {
-      http: ["https://evmrpc-testnet.0g.ai"],
+      http: [process.env.REACT_APP_OG_RPC_URL || "https://evmrpc-testnet.0g.ai"],
     },
   },
   blockExplorers: {

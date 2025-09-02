@@ -38,7 +38,9 @@ const SimpleDailySync = () => {
     }
 
     if (!CONTRACT_ADDRESSES.STORAGE_MANAGER) {
-      toast.error("Storage Manager contract address not configured");
+      toast.error(
+        "Persona Group cannout be created because the 0g storage is not configured yet, it will be done in the next waves. For now, the contracts and INFT functionalities are completed and can be reviewed at contract level or through tests."
+      );
       return;
     }
 
@@ -72,7 +74,9 @@ const SimpleDailySync = () => {
     }
 
     if (!CONTRACT_ADDRESSES.STORAGE_MANAGER) {
-      toast.error("Storage Manager contract address not configured");
+      toast.error(
+        "Persona Group cannout be created because the 0g storage is not configured yet, it will be done in the next waves. For now, the contracts and INFT functionalities are completed and can be reviewed at contract level or through tests."
+      );
       return;
     }
 

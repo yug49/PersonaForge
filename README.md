@@ -1,5 +1,111 @@
 # PersonaForge – Living Individuals but, Digital
 
+## Wave 2: Update ✅
+
+**Wave 2: INFT Core Architecture - COMPLETED**
+
+We have successfully completed Wave 2 of the PersonaForge roadmap, delivering a comprehensive Intelligent NFT (INFT) system with full smart contract implementation, testing, and deployment on the 0G Galileo Testnet.
+
+### What We Built
+
+#### **Smart Contract Architecture**
+
+We developed a robust three-contract system that forms the foundation of the PersonaForge ecosystem:
+
+1. **PersonaINFT.sol** - Core INFT contract implementing ERC-721 with AI agent capabilities
+2. **PersonaStorageManager.sol** - Centralized encrypted storage orchestrator for persona data
+3. **PersonaAgentManager.sol** - AI agent interaction and configuration management system
+
+#### **Dual Storage Architecture**
+
+Our innovative dual-storage approach provides optimal functionality:
+
+- **PersonaStorageManager**: Central location where all INFTs access the core persona data from users who regularly sync their experiences, thoughts, and knowledge
+- **PersonaINFT Groups**: Specialized group storage that defines specific use cases and properties for different INFT categories (e.g., medical consultants, creative writers, technical experts)
+
+This separation allows for:
+
+- **Centralized Learning**: All INFTs benefit from the main persona's continuous evolution
+- **Specialized Applications**: Each group can have domain-specific traits and behaviors
+- **Scalable Architecture**: Multiple INFT groups can reference the same core persona data
+
+#### **Core Features Implemented**
+
+- **INFT Minting & Ownership**: Complete ERC-721 implementation with transfer capabilities  
+- **Group Management**: Create and manage persona groups with specialized traits  
+- **AI Agent Integration**: Event-driven architecture for AI interactions  
+- **Daily Sync Mechanism**: Journal entry system for continuous persona evolution  
+- **Access Control**: Multi-layered RBAC system across all contracts  
+- **Data Encryption**: Secure storage with encryption key management  
+- **Event-Driven AI**: Revolutionary blockchain-AI integration via smart contract events
+
+#### **0G Ecosystem Integration**
+
+Our contracts are fully integrated with the 0G infrastructure:
+
+- **0G Chain**: All contracts deployed on EVM-compatible 0G Galileo Testnet
+- **0G Storage**: Encrypted data storage for persona information and journal entries
+- **0G Compute**: Event-driven AI processing architecture ready for integration
+- **0G Data Availability**: Verifiable data storage for all persona updates
+
+#### **Comprehensive Testing**
+
+We implemented extensive testing with **177 test cases** covering:
+
+- Unit tests for individual contract functions
+- Integration tests for cross-contract workflows
+- Invariant tests for critical system properties
+- Edge case testing for boundary conditions
+- Gas optimization and performance testing
+
+To view the results of the testing: run the following command in the `contracts` folder:
+
+```bash
+forge test
+```
+
+(Make sure you have forge installed as a pre-requisite).
+
+#### **Production Deployment**
+
+All contracts are deployed and verified on **0G Galileo Testnet**:
+
+- **PersonaStorageManager**: `0xD24f085358f914f30b75FC5Ec2baF163627d3249`
+- **PersonaINFT**: `0x159417fE68be0114ba348c0354Bde3c36c9b2D27`
+- **PersonaAgentManager**: `0x0bBD3279F711F49C992079D43dBd3c897939f0b8`
+
+#### **Frontend Implementation**
+
+We developed a minimal but functional React.js dApp interface featuring:
+
+- Wallet connection with RainbowKit
+- Persona group creation and management
+- INFT minting interface
+- Storage group management
+- AI interaction components
+- Network status monitoring
+
+### Key Innovations Delivered
+
+1. **Event-Driven AI Architecture**: Smart contracts emit events for off-chain AI processing, enabling seamless blockchain-AI integration
+2. **Hybrid Privacy Model**: Encrypted storage with controlled access for AI processing
+3. **Dual Storage System**: Centralized persona data with specialized group applications
+4. **Comprehensive Access Control**: Multi-role system ensuring secure operations
+5. **Daily Sync Mechanism**: Continuous persona evolution through journal entries
+
+### Ready for Wave 3
+
+With Wave 2 complete, we have established a solid foundation for:
+
+- **Wave 3**: Storage + Data Syncs integration
+- **Wave 4**: AI Interactivity Demo
+- **Wave 5**: Early User Pilot
+- **Wave 6**: Grant Demo & Final Demo App
+
+The system is production-ready and fully tested, providing a robust platform for the next phases of development.
+
+---
+
 ## Core Concept
 
 PersonaForge is a decentralized platform for building and owning **AI-powered digital identities** ("Persona Agents") as **Intelligent NFTs (INFTs)**.
@@ -91,8 +197,8 @@ Teams can merge INFTs into a **collaborative persona**.
 
 A user can orchestrate **multiple Persona INFTs working together** like a digital team.
 
-- Example: A *Dev INFT* + *PM INFT* + *Tester INFT* collaborate to simulate a small product team.
-- For personal use: a *Fitness INFT* + *Diet INFT* + *Therapy INFT* coordinate to deliver holistic lifestyle guidance.
+- Example: A _Dev INFT_ + _PM INFT_ + _Tester INFT_ collaborate to simulate a small product team.
+- For personal use: a _Fitness INFT_ + _Diet INFT_ + _Therapy INFT_ coordinate to deliver holistic lifestyle guidance.
 - For enterprises: rapid prototyping with AI teams before scaling to human execution.
 
 This creates **instant digital workforces**, unlocking both fun and enterprise-grade productivity.
@@ -122,19 +228,23 @@ Unlike [Character.AI](http://character.ai/), these personas are **ownable, verif
 ## Key Features
 
 - **Mintable Persona INFTs**
+
   - One-click minting on 0G Chain.
   - Seeded with initial inputs and encrypted AI metadata.
 
 - **Daily Syncs**
+
   - Users upload quick snippets.
   - 0G Compute generates insights, recommendations, or connections.
   - Over time, your Persona grows richer and more accurate.
 
 - **Agent-to-Agent Interactions**
+
   - INFTs can handshake with each other onchain.
   - They auto-match and suggest meaningful human connections.
 
 - **Like / Dislike Credibility System**
+
   - Holders of a Persona INFT can leave a **1-time like or dislike per wallet**.
   - This rating system acts as a credibility marker.
   - Helps new buyers know whether the INFT truly represents the person and is being maintained.
@@ -148,6 +258,7 @@ Unlike [Character.AI](http://character.ai/), these personas are **ownable, verif
 ## Transfer & Merge
 
 - **Transfer**
+
   - A persona INFT can be transferred between users or wallets, enabling portability of reputation, skills, or progress.
   - Example: A player can sell, gift, or delegate their persona to another user while retaining the full history of actions, attributes, and achievements.
 
@@ -169,11 +280,13 @@ Unlike [Character.AI](http://character.ai/), these personas are **ownable, verif
 This way maintaining the iNFTs will not feel like an “extra burden” to add to your daily routine and will also reward you.
 
 ---
+
 ## Roadmap (Hackathon Wave Plan)
 
 The evolution of Intelligent NFTs (INFTs) can be visualised in **waves of adoption**, where each wave unlocks more complex and impactful use cases.
 
 ---
+
 ```mermaid
 flowchart TD
 
@@ -220,7 +333,9 @@ flowchart TD
     classDef wave5 fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#fff;
     classDef wave6 fill:#FF1493,stroke:#333,stroke-width:2px,color:#fff;
 ```
+
 ---
+
 ### Wave 1: Concept Validation - Completed ✅
 
 - Brainstorm & validate INFT concepts
@@ -283,21 +398,24 @@ We can then start developing on **specific use cases (demanded by the community 
 **And many more...**
 
 ---
+
 ## PersonaForge Tech Stack (Powered by 0G)
 
 - **0G Chain**
-    - Hosts the **Persona INFTs** as smart contracts on an **EVM-compatible chain**.
-    - Handles minting, ownership, transfers, merging, and credibility (like/dislike) logic.
+  - Hosts the **Persona INFTs** as smart contracts on an **EVM-compatible chain**.
+  - Handles minting, ownership, transfers, merging, and credibility (like/dislike) logic.
 - **0G Compute**
-    - Runs **AI inference and personalization** for Persona Agents.
-    - Processes user syncs (text, audio, notes) into evolving persona traits, insights, and recommendations.
+  - Runs **AI inference and personalization** for Persona Agents.
+  - Processes user syncs (text, audio, notes) into evolving persona traits, insights, and recommendations.
 - **0G Storage**
-    - Stores **encrypted personal data, history, and persona metadata**.
-    - Ensures long-term, cheap, and portable data management beyond centralized silos.
+  - Stores **encrypted personal data, history, and persona metadata**.
+  - Ensures long-term, cheap, and portable data management beyond centralized silos.
 - **0G Data Availability (DA)**
-    - Guarantees that all persona syncs and interaction data are **verifiably available** for validation and future interactions.
-    - Enables **scalability** as thousands of users upload daily snippets without bottlenecks.
+  - Guarantees that all persona syncs and interaction data are **verifiably available** for validation and future interactions.
+  - Enables **scalability** as thousands of users upload daily snippets without bottlenecks.
+
 ---
+
 ## Why This Works for 0G
 
 - **User Magnet** – Frictionless onboarding: mint and sync in minutes.
