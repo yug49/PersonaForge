@@ -1,0 +1,4 @@
+  === Deployment Summary ===
+  PersonaStorageManager: 0x0dc28A9b5503981C39e22d06A1ace2A9A30fc1C9
+  PersonaINFT: 0x08B90f0C20878Bc6251468fFf7beAb3b3C28F0C4
+  PersonaAgentManager: 0x491a1064c7Fd8A966E2A89DB8DD539C2B01FC4AD
