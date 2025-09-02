@@ -15,6 +15,7 @@ We developed a robust three-contract system that forms the foundation of the Per
 1. **PersonaINFT.sol** - Core INFT contract implementing ERC-721 with AI agent capabilities
 2. **PersonaStorageManager.sol** - Centralized encrypted storage orchestrator for persona data
 3. **PersonaAgentManager.sol** - AI agent interaction and configuration management system
+4. **Minimal Frontend** - Basic user interface to showcase the interaction by the user. The UI will be improved and polished more in the later waves to make it even more user friendly. URL: [PersonaForge](https://personaforge-ten.vercel.app/)
 
 #### **Dual Storage Architecture**
 
