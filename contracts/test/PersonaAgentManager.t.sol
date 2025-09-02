@@ -401,7 +401,7 @@ contract PersonaAgentManagerTest is Test {
 
         vm.startPrank(address(personaINFT));
 
-        // Process multiple queries
+        // Process multiple queries and simulate server responses
         for (uint256 i = 0; i < 3; i++) {
             IPersonaAgent.AgentRequest memory query = IPersonaAgent.AgentRequest({
                 tokenId: tokenId,
@@ -412,6 +412,13 @@ contract PersonaAgentManagerTest is Test {
             });
 
             agentManager.processQuery(query);
+
+            // Simulate server submitting response
+            vm.stopPrank();
+            vm.startPrank(admin); // Admin role can submit responses
+            agentManager.submitAIResponse(i, string(abi.encodePacked("Response to query ", vm.toString(i + 1))));
+            vm.stopPrank();
+            vm.startPrank(address(personaINFT));
         }
 
         vm.stopPrank();
@@ -764,7 +771,7 @@ contract PersonaAgentManagerTest is Test {
 
         vm.startPrank(address(personaINFT));
 
-        // Process some queries
+        // Process some queries and simulate server responses
         for (uint256 i = 0; i < 3; i++) {
             IPersonaAgent.AgentRequest memory query = IPersonaAgent.AgentRequest({
                 tokenId: tokenId,
@@ -775,6 +782,13 @@ contract PersonaAgentManagerTest is Test {
             });
 
             agentManager.processQuery(query);
+
+            // Simulate server submitting response
+            vm.stopPrank();
+            vm.startPrank(admin); // Admin role can submit responses
+            agentManager.submitAIResponse(i, string(abi.encodePacked("Response to query ", vm.toString(i + 1))));
+            vm.stopPrank();
+            vm.startPrank(address(personaINFT));
         }
 
         vm.stopPrank();

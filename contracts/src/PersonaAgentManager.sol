@@ -52,17 +52,47 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
     address public ogComputeAddress;
     string public agentModelEndpoint;
 
+    // AI Request tracking
+    struct AIRequest {
+        uint256 tokenId;
+        address requester;
+        string query;
+        uint256 timestamp;
+        bool processed;
+        string response;
+    }
+
+    mapping(uint256 => AIRequest) public aiRequests;
+    uint256 public requestCounter;
+
     // Configuration
     uint256 public maxHistoryLength = 100;
     uint256 public maxQueryLength = 2000;
-    uint256 public maxResponseTime = 30 seconds;
 
-    // Events
-    event AgentConfigured(uint256 indexed tokenId, string name, string personalityTraits);
+    // Events for off-chain AI processing
+    event AIRequestCreated(
+        uint256 indexed requestId,
+        uint256 indexed tokenId,
+        address indexed requester,
+        string encryptedDataURI,
+        string personalityTraits,
+        string query,
+        bytes context,
+        uint256 timestamp
+    );
 
-    event QueryProcessed(uint256 indexed tokenId, address indexed requester, uint256 responseTime);
+    event AIResponseSubmitted(
+        uint256 indexed requestId,
+        uint256 indexed tokenId,
+        string response,
+        uint256 timestamp
+    );
 
-    event AgentDeactivated(uint256 indexed tokenId, string reason);
+    event AgentConfigUpdated(uint256 indexed tokenId, address indexed updater, uint256 timestamp);
+
+    event AuthorizedCallerAdded(address indexed caller);
+    
+    event AuthorizedCallerRemoved(address indexed caller);
 
     constructor(
         address _personaINFT,
@@ -113,32 +143,93 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
         PersonaINFT.PersonaGroup memory group = personaINFT.getPersonaGroup(token.groupId);
         require(group.isActive, "Group not active");
 
-        uint256 startTime = block.timestamp;
-
-        // Process query through 0G Compute
-        string memory agentResponse = _processWithOGCompute(
-            request.tokenId, group.encryptedDataURI, token.personalityTraits, request.query, request.context
-        );
-
-        uint256 responseTime = block.timestamp - startTime;
-        require(responseTime <= maxResponseTime, "Response timeout");
-
-        // Create response
-        response = AgentResponse({
+        // Create AI request
+        uint256 requestId = requestCounter++;
+        
+        aiRequests[requestId] = AIRequest({
             tokenId: request.tokenId,
-            response: agentResponse,
+            requester: request.requester,
+            query: request.query,
             timestamp: block.timestamp,
-            metadata: abi.encode(responseTime, group.name, token.personalityTraits)
+            processed: false,
+            response: ""
         });
 
-        // Record interaction
-        _recordInteraction(request, response);
+        // Emit event for off-chain AI processing
+        emit AIRequestCreated(
+            requestId,
+            request.tokenId,
+            request.requester,
+            group.encryptedDataURI,  // Server will fetch this from 0G Storage
+            token.personalityTraits,
+            request.query,
+            request.context,
+            block.timestamp
+        );
 
-        // Update stats
-        _updateAgentStats(request.tokenId, responseTime);
+        // Record interaction with placeholder response
+        _recordInteraction(
+            request.tokenId,
+            request.requester,
+            request.query,
+            "AI request submitted. Response pending..."
+        );
 
-        emit AgentQueryProcessed(request.tokenId, request.requester, request.query, agentResponse);
-        emit QueryProcessed(request.tokenId, request.requester, responseTime);
+        // Return immediate response indicating processing
+        response = AgentResponse({
+            tokenId: request.tokenId,
+            response: "AI request submitted. Response will be available shortly.",
+            timestamp: block.timestamp,
+            metadata: abi.encode(requestId, "event-driven-v1")
+        });
+    }
+
+    /**
+     * @dev Submit AI response from off-chain processing (only authorized server)
+     * @param requestId The AI request ID
+     * @param response The AI-generated response
+     */
+    function submitAIResponse(uint256 requestId, string memory response) 
+        external 
+        onlyRole(ADMIN_ROLE)
+        nonReentrant
+    {
+        require(requestId < requestCounter, "Invalid request ID");
+        require(!aiRequests[requestId].processed, "Request already processed");
+        require(bytes(response).length > 0, "Empty response");
+
+        AIRequest storage request = aiRequests[requestId];
+        request.processed = true;
+        request.response = response;
+
+        // Update interaction history with actual response
+        _updateInteractionResponse(request.tokenId, response);
+
+        // Update agent stats
+        _updateAgentStats(request.tokenId, 0); // Response time handled off-chain
+
+        emit AIResponseSubmitted(requestId, request.tokenId, response, block.timestamp);
+    }
+
+    /**
+     * @dev Get AI response for a request
+     * @param requestId The AI request ID
+     * @return response The AI response (if processed)
+     */
+    function getAIResponse(uint256 requestId) external view returns (string memory) {
+        require(requestId < requestCounter, "Invalid request ID");
+        require(aiRequests[requestId].processed, "Response not ready");
+        return aiRequests[requestId].response;
+    }
+
+    /**
+     * @dev Check if AI request is processed
+     * @param requestId The AI request ID
+     * @return processed Whether the request has been processed
+     */
+    function isAIRequestProcessed(uint256 requestId) external view returns (bool) {
+        if (requestId >= requestCounter) return false;
+        return aiRequests[requestId].processed;
     }
 
     /**
@@ -178,8 +269,7 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
 
         personaConfigs[tokenId] = config;
 
-        emit PersonaConfigUpdated(tokenId, config.name, config.personalityTraits);
-        emit AgentConfigured(tokenId, config.name, config.personalityTraits);
+        emit AgentConfigUpdated(tokenId, msg.sender, block.timestamp);
     }
 
     /**
@@ -333,14 +423,11 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
     /**
      * @dev Deactivate an agent (admin only)
      * @param tokenId The token ID
-     * @param reason Reason for deactivation
      */
-    function deactivateAgent(uint256 tokenId, string memory reason) external onlyRole(ADMIN_ROLE) {
+    function deactivateAgent(uint256 tokenId, string memory /* reason */) external onlyRole(ADMIN_ROLE) {
         require(_tokenExists(tokenId), "Token does not exist");
 
         agentStats[tokenId].isActive = false;
-
-        emit AgentDeactivated(tokenId, reason);
     }
 
     /**
@@ -374,15 +461,13 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
      * @dev Update configuration parameters (admin only)
      * @param _maxHistoryLength New max history length
      * @param _maxQueryLength New max query length
-     * @param _maxResponseTime New max response time
      */
-    function updateConfiguration(uint256 _maxHistoryLength, uint256 _maxQueryLength, uint256 _maxResponseTime)
+    function updateConfiguration(uint256 _maxHistoryLength, uint256 _maxQueryLength)
         external
         onlyRole(ADMIN_ROLE)
     {
         maxHistoryLength = _maxHistoryLength;
         maxQueryLength = _maxQueryLength;
-        maxResponseTime = _maxResponseTime;
     }
 
     /**
@@ -404,49 +489,19 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
     // Internal functions
 
     /**
-     * @dev Process query with 0G Compute (placeholder implementation)
-     * @param tokenId Token ID for context
-     * @param encryptedDataURI URI to encrypted persona data
-     * @param personalityTraits Individual personality traits
+     * @dev Record interaction in history (simplified for event-driven approach)
+     * @param tokenId Token ID
+     * @param requester Address of requester
      * @param query User query
-     * @return response AI agent response
-     */
-    function _processWithOGCompute(
-        uint256 tokenId,
-        string memory encryptedDataURI,
-        string memory personalityTraits,
-        string memory query,
-        bytes memory /* context */
-    ) internal pure returns (string memory response) {
-        // This is a placeholder implementation
-        // In production, this would:
-        // 1. Call 0G Compute API with encrypted data URI
-        // 2. Include personality traits and context
-        // 3. Process query with AI model
-        // 4. Return personalized response
-
-        response = string(
-            abi.encodePacked(
-                "AI Agent Response for token ",
-                Strings.toString(tokenId),
-                ": Based on personality '",
-                personalityTraits,
-                "' and data from '",
-                encryptedDataURI,
-                "', responding to: '",
-                query,
-                "'"
-            )
-        );
-    }
-
-    /**
-     * @dev Record interaction in history
-     * @param request Original request
      * @param response Agent response
      */
-    function _recordInteraction(AgentRequest memory request, AgentResponse memory response) internal {
-        InteractionRecord[] storage history = interactionHistory[request.tokenId];
+    function _recordInteraction(
+        uint256 tokenId,
+        address requester,
+        string memory query,
+        string memory response
+    ) internal {
+        InteractionRecord[] storage history = interactionHistory[tokenId];
 
         // Maintain history limit
         if (history.length >= maxHistoryLength) {
@@ -459,14 +514,27 @@ contract PersonaAgentManager is IPersonaAgent, AccessControl, ReentrancyGuard {
 
         history.push(
             InteractionRecord({
-                tokenId: request.tokenId,
-                requester: request.requester,
-                query: request.query,
-                response: response.response,
-                timestamp: response.timestamp,
-                metadata: response.metadata
+                tokenId: tokenId,
+                requester: requester,
+                query: query,
+                response: response,
+                timestamp: block.timestamp,
+                metadata: abi.encode("event-driven-request")
             })
         );
+    }
+
+    /**
+     * @dev Update the most recent interaction with actual AI response
+     * @param tokenId Token ID
+     * @param response Actual AI response
+     */
+    function _updateInteractionResponse(uint256 tokenId, string memory response) internal {
+        InteractionRecord[] storage history = interactionHistory[tokenId];
+        if (history.length > 0) {
+            // Update the most recent interaction
+            history[history.length - 1].response = response;
+        }
     }
 
     /**

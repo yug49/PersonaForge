@@ -128,17 +128,22 @@ _AI agent interaction and configuration management_
 
 **Key Features**:
 
+- **Event-Driven AI Processing**: Emits events for off-chain AI processing via 0G Compute
 - **Agent Configuration**: Stores and updates AI model parameters and personality settings
-- **Query Processing**: Interfaces with 0G Compute for AI inference
 - **Interaction History**: Tracks all user-agent interactions with timestamps
 - **Access Control**: Ensures only token owners can interact with their agents
 - **Statistics Tracking**: Monitors agent usage and performance metrics
+- **Server Response Management**: Handles AI responses from authorized off-chain servers
 
 **Core Functions**:
 
 ```solidity
-// Agent Interaction
-function processQuery(AgentRequest request) → AgentResponse
+// Event-Driven AI Interaction
+function processQuery(AgentRequest request) → AgentResponse // Emits AIRequestCreated event
+function submitAIResponse(uint256 requestId, string response) // Server submits AI response
+function getAIResponse(uint256 requestId) → string // Get processed AI response
+
+// Agent Configuration
 function updatePersonaConfigData(uint256 tokenId, string configData)
 
 // History & Analytics
@@ -152,9 +157,9 @@ function addAuthorizedCaller(address caller)
 
 **Integration Points**:
 
-- **→ 0G Compute**: Sends queries for AI inference and receives responses
+- **→ Off-chain Server**: Emits events for off-chain AI processing via 0G Compute
 - **→ PersonaINFT**: Validates token ownership and retrieves persona data
-- **→ PersonaStorageManager**: Accesses encrypted storage for context and history
+- **→ PersonaStorageManager**: Provides encrypted data URIs for server processing
 
 ### Interface Contracts (`/src/interfaces/`)
 
@@ -219,14 +224,16 @@ Central Server Decryption → AI Processing → Persona Evolution
 PersonaAgentManager.updatePersonaConfigData() → Enhanced Agent Capabilities
 ```
 
-### 3. **AI Interaction Flow**
+### 3. **Event-Driven AI Interaction Flow**
 
 ```
 User Query → PersonaINFT.interactWithAgent() → PersonaAgentManager.processQuery()
      ↓
-0G Compute AI Inference ← PersonaStorageManager (context data)
+Emit AIRequestCreated Event → Off-chain Server Listens
      ↓
-Response → PersonaAgentManager (logged) → User
+Server: Fetch 0G Storage → Decrypt → 0G Compute AI Inference
+     ↓
+Server: PersonaAgentManager.submitAIResponse() → User gets response
 ```
 
 ## 🔐 Security & Access Control
@@ -278,7 +285,7 @@ Each contract implements a comprehensive RBAC system:
 
 ### **0G Compute** ⚡
 
-- **AI Inference**: Real-time persona query processing
+- **Off-chain AI Inference**: Real-time persona query processing via authorized servers
 - **Model Hosting**: Decentralized AI model execution
 - **Scalability**: Handles multiple concurrent AI interactions
 - **Censorship Resistance**: No central authority can restrict AI capabilities
@@ -318,7 +325,16 @@ Balances functionality with privacy:
 - **User Control**: Users control what data to share and when
 - **No INFT Holder Access**: Token holders cannot access raw encrypted data
 
-### 4. **Cross-Contract State Management**
+### 4. **Event-Driven AI Architecture**
+
+Revolutionary approach to blockchain-AI integration:
+
+- **Smart Contract Events**: Contracts emit events instead of making impossible API calls
+- **Off-chain Processing**: Authorized servers handle AI inference using 0G Compute
+- **Response Submission**: Servers submit AI responses back to smart contracts
+- **Transparent & Auditable**: All AI requests and responses logged on-chain
+
+### 5. **Cross-Contract State Management**
 
 Sophisticated state synchronization across contracts:
 
@@ -513,12 +529,13 @@ string memory response = personaINFT.interactWithAgent(
     "I have a 28-year-old female patient with fatigue, joint pain, and morning stiffness lasting 6 weeks. Lab shows elevated ESR and CRP. What's your diagnostic approach?"
 );
 
-// Under the hood, this triggers:
+// Under the hood, this triggers the event-driven flow:
 // 1. PersonaINFT.interactWithAgent() calls PersonaAgentManager.processQuery()
-// 2. AgentManager retrieves context from StorageManager
-// 3. Query sent to 0G Compute with encrypted persona data
-// 4. AI response generated based on Dr. Sarah's medical knowledge
-// 5. Response logged and returned
+// 2. AgentManager emits AIRequestCreated event with encrypted data URI
+// 3. Off-chain server listens to event and fetches encrypted data from 0G Storage
+// 4. Server decrypts data and sends query to 0G Compute for AI inference
+// 5. Server calls submitAIResponse() to store response on-chain
+// 6. User can retrieve the AI response when ready
 ```
 
 **Internal Function Flow:**
@@ -540,25 +557,35 @@ function interactWithAgent(uint256 tokenId, string memory query) external return
     }));
 }
 
-// 2. AgentManager processes query with 0G Compute
+// 2. AgentManager creates AI request and emits event for off-chain processing
 function processQuery(IPersonaAgent.AgentRequest memory request) external returns (string memory) {
     require(hasAgentAccess(request.tokenId, request.requester), "No access");
 
-    // Get persona configuration
-    PersonaConfig memory config = personaConfigs[request.tokenId];
+    // Create AI request
+    uint256 requestId = requestCounter++;
+    aiRequests[requestId] = AIRequest({
+        tokenId: request.tokenId,
+        requester: request.requester,
+        query: request.query,
+        timestamp: block.timestamp,
+        processed: false,
+        response: ""
+    });
 
-    // Process with 0G Compute (placeholder - actual implementation would call 0G API)
-    string memory response = _processWithOGCompute(
+    // Emit event for off-chain AI processing
+    emit AIRequestCreated(
+        requestId,
         request.tokenId,
-        "", // encryptedDataURI from storage
-        string(request.context), // personalityTraits
-        request.query
+        request.requester,
+        group.encryptedDataURI,  // Server will fetch this from 0G Storage
+        token.personalityTraits,
+        request.query,
+        request.context,
+        block.timestamp
     );
 
-    // Log interaction
-    _recordInteraction(request.tokenId, request.requester, request.query, response);
-
-    return response;
+    // Return immediate response indicating processing
+    return "AI request submitted. Response will be available shortly.";
 }
 ```
 
@@ -585,10 +612,23 @@ Remember: Morning stiffness >1 hour is a key feature of inflammatory arthritis. 
 **Events Emitted:**
 
 ```solidity
-emit PersonaAgentManager.AgentQueryProcessed(
+// Initial request event
+emit PersonaAgentManager.AIRequestCreated(
+    0, // requestId
     1, // tokenId
     msg.sender, // Dr. Alex's address
-    "I have a 28-year-old female patient...", // query (truncated)
+    "0g://storage/medical-personas/group-1", // encryptedDataURI
+    "Experienced family physician...", // personalityTraits
+    "I have a 28-year-old female patient...", // query
+    "", // context
+    block.timestamp
+);
+
+// Later, when server submits response
+emit PersonaAgentManager.AIResponseSubmitted(
+    0, // requestId
+    1, // tokenId
+    "Based on the presentation...", // AI response
     block.timestamp
 );
 ```
@@ -699,15 +739,20 @@ sequenceDiagram
     U->>S: dailySync(thoughts)
     S->>OGS: Store encrypted journal entry
 
-    Note over U,OGC: Phase 3: AI Interaction
+    Note over U,OGC: Phase 3: Event-Driven AI Interaction
     U->>P: interactWithAgent(query)
     P->>A: processQuery()
-    A->>S: getStorageData()
-    S->>OGS: Retrieve encrypted context
-    A->>OGC: AI inference with context
-    OGC-->>A: AI response
-    A-->>P: Return response
-    P-->>U: Final response
+    A->>A: emit AIRequestCreated()
+    A-->>P: "Request submitted"
+    P-->>U: "Processing..."
+
+    Note over OGS,OGC: Off-chain Server Processing
+    A->>OGS: Server listens to events
+    OGS->>OGS: Fetch encrypted data
+    OGS->>OGC: AI inference with context
+    OGC-->>OGS: AI response
+    OGS->>A: submitAIResponse()
+    A->>U: emit AIResponseSubmitted()
 
     Note over U,OGC: Phase 4: Analytics
     U->>A: getInteractionRecords()
@@ -717,12 +762,14 @@ sequenceDiagram
 
 This example demonstrates:
 
+- **Event-driven AI processing architecture**
 - **Complete contract interaction flow**
 - **Real-world medical AI use case**
 - **Daily sync persona evolution**
 - **Multi-user collaboration (Dr. Sarah + Research Assistant + Dr. Alex)**
 - **0G infrastructure integration points**
 - **Comprehensive event logging**
+- **Off-chain server integration**
 - **Analytics and monitoring capabilities**
 
 ## 🧪 Testing Coverage
@@ -794,6 +841,54 @@ AGENT_MANAGER_ADDRESS=<deployed-address>
 2. **Sharding**: Distribute storage and compute across multiple nodes
 3. **Caching Layer**: Reduce on-chain calls for frequently accessed data
 4. **Batch Operations**: Optimize gas costs for bulk operations
+
+## 🔧 Server Implementation Requirements
+
+The event-driven architecture requires an **off-chain server** to handle AI processing:
+
+### **Server Responsibilities:**
+
+1. **Event Monitoring**: Listen to `AIRequestCreated` events on 0G Chain
+2. **Data Fetching**: Retrieve encrypted data from 0G Storage using provided URIs
+3. **Decryption**: Decrypt personal data using server private key
+4. **AI Processing**: Send queries to 0G Compute with decrypted context
+5. **Response Submission**: Call `submitAIResponse()` with AI-generated responses
+
+### **Server Architecture Example:**
+
+```javascript
+// Simplified server implementation outline
+const { ethers } = require("ethers");
+
+// Listen for AI requests
+contract.on(
+  "AIRequestCreated",
+  async (
+    requestId,
+    tokenId,
+    requester,
+    encryptedDataURI,
+    personalityTraits,
+    query
+  ) => {
+    // 1. Fetch encrypted data from 0G Storage
+    const encryptedData = await fetch0GStorage(encryptedDataURI);
+
+    // 2. Decrypt data
+    const decryptedData = await decryptData(encryptedData);
+
+    // 3. Process with 0G Compute
+    const aiResponse = await call0GCompute({
+      personalityTraits,
+      query,
+      context: decryptedData,
+    });
+
+    // 4. Submit response back to contract
+    await contract.submitAIResponse(requestId, aiResponse);
+  }
+);
+```
 
 ## 📚 Additional Resources
 

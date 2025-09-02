@@ -415,11 +415,14 @@ contract IntegrationTest is Test {
         IPersonaAgent.AgentResponse memory response1 = agentManager.processQuery(request);
         assertTrue(bytes(response1.response).length > 0);
 
+        // Simulate server submitting response
         vm.stopPrank();
+        vm.startPrank(admin);
+        agentManager.submitAIResponse(0, "Chess strategy response: Focus on center control");
+        vm.stopPrank();
+
         vm.startPrank(user1);
-
         agentManager.updatePersonaConfigData(tokenId, "Prefer aggressive openings");
-
         vm.stopPrank();
 
         // Verify user1's ownership and access
